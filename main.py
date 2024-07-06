@@ -1,56 +1,43 @@
-from sys import stdout
-
-
-def update_num(x):  # замените на ваш цикл
-    stdout.write('\r' + 'Текущее число: %d' % x)
-    stdout.flush()
-
-x = 0
-print(x)
-
 import timeit
 import logging
 logging.basicConfig(filename='example.log', level=logging.INFO)
-
-
 start_time = timeit.default_timer()
+
 def is_perfect(number):
     if number%2 != 0:
         return False
-
     sum_divisors = 0
-
     for i in range(1, number):
 
         if number % i == 0:
 
             sum_divisors += i
-
-           
-
     return sum_divisors == number
 
-tnum = (6, 28, 496, 8128)
 
-while len(tnum)<=10:
+def sum_of_odd_squares(n): 
+    result = 0 
+    for i in range(1, 2*n+1, 2): 
+        result += i**3
+    return result
 
+from sys import stdout
+def update_num(x): 
+    stdout.write('\r' + 'Текущее число: %d' % x)
+    stdout.flush()
+
+x = 257
+
+while True:
     x+=1
-
-    if is_perfect(x):
-
-          # Measure the start time
-
-        end_time = timeit.default_timer()  # Measure the end time
-
-        execution_time = end_time - start_time  # Calculate the execution time
-
+    soos = sum_of_odd_squares(x)
+    end_time = timeit.default_timer()
+    execution_time = end_time - start_time
+    if is_perfect(soos):
+        
         with open('file.txt', 'a', encoding='UTF-8') as file:
-            file.write(str(x)+'-'+ str(execution_time) +'\n')
-        
-    else:
-        logging.info(f'{x}')
+            file.write(str(x)+':'+str(soos)+'-'+ str(execution_time) +'\n')
+    logging.info(f'{x}:{soos} - {execution_time}')
+    update_num(soos)
 
-    
-        
 
-    update_num(x)
